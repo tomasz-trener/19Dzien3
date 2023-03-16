@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SapLogisticAutomatizaion", "SapLogisticAutomatizaion\SapLogisticAutomatizaion.csproj", "{004AEC91-CE84-4676-A85C-7F6E0C741E2C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{004AEC91-CE84-4676-A85C-7F6E0C741E2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{004AEC91-CE84-4676-A85C-7F6E0C741E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{004AEC91-CE84-4676-A85C-7F6E0C741E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{004AEC91-CE84-4676-A85C-7F6E0C741E2C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F17319F3-9038-442E-AEA3-74233325C7A8}
+	EndGlobalSection
+EndGlobal
