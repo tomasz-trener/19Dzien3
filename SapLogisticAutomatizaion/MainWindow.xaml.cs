@@ -25,19 +25,19 @@ namespace SapLogisticAutomatizaion
     {
         private string[][] materialsData;
 
+        private IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+
         public MainWindow()
         {
             InitializeComponent();
             // tutaj wykonuje sie kod , po uruchomieniu formularza
 
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .Build();
-
             //Microsoft.Extensions.Configuration.Binder
             //Microsoft.Extensions.Configuration
             //Microsoft.Extensions.Configuration.Json
-            string defaultPath = config.GetValue<string>("DefaultExcelPath");
+            string defaultPath = config.GetValue<string>("InputExcelPath");
             txtMaterialsDataFile.Text = defaultPath;
 
             seedMateralData();
@@ -80,6 +80,40 @@ namespace SapLogisticAutomatizaion
 
         private void btnCreateNotification_Click(object sender, RoutedEventArgs e)
         {
+            // Read values from the controls
+            string partNumber = cbPartNumbers.SelectedItem.ToString();
+            string materialDescription = txtBlockMaterialDesc.Text;
+            string serialNumber = txtSerialNumber.Text;
+            DateTime manufacturingDate = dtpManufacturingDdate.SelectedDate ?? DateTime.MinValue;
+            DateTime receiptDate = dtpReciptDate.SelectedDate ?? DateTime.MinValue;
+            string additionalData = txtAddictionalData.Text;
+            string containerCondition = (OKRadioButton.IsChecked == true) ? "OK" : "NO";
+            string customsStatus = (T1RadioButton.IsChecked == true) ? "T1" : "C";
+            string containerDetails = "";
+            if (WoodenBoxCheckBox.IsChecked == true)
+                containerDetails += "Wooden box, ";
+            if (ShippingBoxCheckBox.IsChecked == true)
+                containerDetails += "Shipping box, ";
+            if (PlasticBoxCheckBox.IsChecked == true)
+                containerDetails += "Plastic box";
+
+            if (containerDetails.EndsWith(", "))
+                containerDetails = containerDetails.Remove(containerDetails.Length - 2);
+            // Create a new Product object and fill its properties
+            Product product = new Product();
+            product.PartNumber = partNumber;
+            product.MaterialDescription = materialDescription;
+            product.SerialNumber = serialNumber;
+            product.ManufacturingDate = manufacturingDate;
+            product.ReceiptDate = receiptDate;
+            product.AdditionalData = additionalData;
+            product.ContainerCondition = containerCondition;
+            product.CustomsStatus = customsStatus;
+            product.ContainerDetails = containerDetails;
+
+            ExcelDataWriter excelDataWriter = new ExcelDataWriter();
+            string defaultPath = config.GetValue<string>("OutputExcelPath");
+            excelDataWriter.WriteToExcel(defaultPath, product);
         }
 
         private void cbPartNumbers_SelectionChanged(object sender, SelectionChangedEventArgs e)
