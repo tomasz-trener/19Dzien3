@@ -34,6 +34,12 @@ namespace SapLogisticAutomatizaion
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build();
 
+            //Microsoft.Extensions.Configuration.Binder
+            //Microsoft.Extensions.Configuration
+            //Microsoft.Extensions.Configuration.Json
+            string defaultPath = config.GetValue<string>("DefaultExcelPath");
+            txtMaterialsDataFile.Text = defaultPath;
+
             seedMateralData();
         }
 
