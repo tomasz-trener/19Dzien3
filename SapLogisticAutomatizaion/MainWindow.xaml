@@ -18,7 +18,14 @@
 
         <StackPanel MinWidth="200" Margin="20 10" Grid.Row="0" Grid.Column="0">
             <Label Content="Materials data file"></Label>
-            <TextBox MouseLeftButtonDown="txtMaterialsDataFile_MouseLeftButtonDown"  x:Name="txtMaterialsDataFile"></TextBox>
+
+            <DockPanel>
+                <Button Click="btnSetPath_Click" DockPanel.Dock="Right"
+                        x:Name="btnSetPath" Content="Set"></Button>
+                <TextBox DockPanel.Dock="Right"
+                         x:Name="txtMaterialsDataFile">
+                </TextBox>
+            </DockPanel>
 
             <Label Content="Part number" />
             <ComboBox SelectionChanged="cbPartNumbers_SelectionChanged" ItemsSource="{Binding}" x:Name="cbPartNumbers"></ComboBox>

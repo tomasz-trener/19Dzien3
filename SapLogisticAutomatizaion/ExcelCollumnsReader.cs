@@ -9,7 +9,7 @@ namespace SapLogisticAutomatizaion
 {
     internal class ExcelCollumnsReader
     {
-        public string[][] ReadExcelFile()
+        public string[][] ReadExcelFile(string path)
         {
             // Create an instance of Excel application
             Excel.Application excelApp = new Excel.Application();
@@ -17,7 +17,7 @@ namespace SapLogisticAutomatizaion
             try
             {
                 // Open the Excel file
-                Excel.Workbook workbook = excelApp.Workbooks.Open(@"C:\dane\Excel\Book2.xlsx");
+                Excel.Workbook workbook = excelApp.Workbooks.Open(path);
 
                 // Select the first worksheet
                 Excel.Worksheet worksheet = (Excel.Worksheet)workbook.Worksheets[1];

@@ -32,8 +32,9 @@ namespace SapLogisticAutomatizaion
 
         private void seedMateralData()
         {
+            string excelPath = txtMaterialsDataFile.Text;
             var ecr = new ExcelCollumnsReader();
-            materialsData = ecr.ReadExcelFile();
+            materialsData = ecr.ReadExcelFile(excelPath);
 
             string[] materials = materialsData.Select(x => x[0]).Skip(1).ToArray();
             cbPartNumbers.DataContext = materials;
@@ -78,13 +79,14 @@ namespace SapLogisticAutomatizaion
             }
         }
 
-        private void txtMaterialsDataFile_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void btnSetPath_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
                 txtMaterialsDataFile.Text = openFileDialog.FileName;
+                seedMateralData();
             }
         }
     }
