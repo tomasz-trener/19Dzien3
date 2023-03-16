@@ -1,6 +1,8 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +29,11 @@ namespace SapLogisticAutomatizaion
         {
             InitializeComponent();
             // tutaj wykonuje sie kod , po uruchomieniu formularza
+
+            IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+
             seedMateralData();
         }
 
