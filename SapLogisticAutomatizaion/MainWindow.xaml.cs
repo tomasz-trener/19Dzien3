@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,15 +21,27 @@ namespace SapLogisticAutomatizaion
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string[][] materialsData;
+
         public MainWindow()
         {
             InitializeComponent();
+            // tutaj wykonuje sie kod , po uruchomieniu formularza
+            seedMateralData();
+        }
+
+        private void seedMateralData()
+        {
+            var ecr = new ExcelCollumnsReader();
+            materialsData = ecr.ReadExcelFile();
+
+            string[] materials = materialsData.Select(x => x[0]).Skip(1).ToArray();
+            cbPartNumbers.DataContext = materials;
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             // Clear all textboxes
-            txtPartNumber.Clear();
             txtSerialNumber.Clear();
             txtAddictionalData.Clear();
 
@@ -46,10 +59,33 @@ namespace SapLogisticAutomatizaion
             WoodenBoxCheckBox.IsChecked = false;
             ShippingBoxCheckBox.IsChecked = false;
             PlasticBoxCheckBox.IsChecked = false;
+
+            txtBlockMaterialDesc.Text = string.Empty;
+            cbPartNumbers.SelectedIndex = -1;
         }
 
         private void btnCreateNotification_Click(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void cbPartNumbers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int indx = cbPartNumbers.SelectedIndex;
+            if (indx > -1)
+            {
+                string selectedMaterialDescription = materialsData[indx][1];
+                txtBlockMaterialDesc.Text = selectedMaterialDescription;
+            }
+        }
+
+        private void txtMaterialsDataFile_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                txtMaterialsDataFile.Text = openFileDialog.FileName;
+            }
         }
     }
 }

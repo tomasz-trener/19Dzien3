@@ -9,41 +9,51 @@ namespace SapLogisticAutomatizaion
 {
     internal class ExcelCollumnsReader
     {
-        public void ReadExcelFile()
+        public string[][] ReadExcelFile()
         {
             // Create an instance of Excel application
             Excel.Application excelApp = new Excel.Application();
 
-            // Open the Excel file
-            Excel.Workbook workbook = excelApp.Workbooks.Open(@"C:\example.xlsx");
-
-            // Select the first worksheet
-            Excel.Worksheet worksheet = (Excel.Worksheet)workbook.Worksheets[1];
-
-            // Find the last row and column with data
-            Excel.Range last = worksheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
-            int lastRow = last.Row;
-            int lastCol = last.Column;
-
-            // Create a jagged array to store the data
-            string[][] data = new string[lastRow][];
-            for (int i = 0; i < lastRow; i++)
+            try
             {
-                data[i] = new string[2];
-            }
+                // Open the Excel file
+                Excel.Workbook workbook = excelApp.Workbooks.Open(@"C:\dane\Excel\Book2.xlsx");
 
-            // Read data from columns A and B
-            for (int i = 1; i <= lastRow; i++)
+                // Select the first worksheet
+                Excel.Worksheet worksheet = (Excel.Worksheet)workbook.Worksheets[1];
+
+                // Find the last row and column with data
+                Excel.Range last = worksheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
+                int lastRow = last.Row;
+                int lastCol = last.Column;
+
+                // Create a jagged array to store the data
+                string[][] data = new string[lastRow][];
+                for (int i = 0; i < lastRow; i++)
+                {
+                    data[i] = new string[2];
+                }
+
+                // Read data from columns A and B
+                for (int i = 1; i <= lastRow; i++)
+                {
+                    data[i - 1][0] = ((Excel.Range)worksheet.Cells[i, 1]).Value2.ToString();
+                    data[i - 1][1] = ((Excel.Range)worksheet.Cells[i, 2]).Value2.ToString();
+                }
+
+                // Close the Excel file
+                workbook.Close(false);
+                return data;
+            }
+            catch (Exception)
             {
-                data[i - 1][0] = ((Excel.Range)worksheet.Cells[i, 1]).Value2.ToString();
-                data[i - 1][1] = ((Excel.Range)worksheet.Cells[i, 2]).Value2.ToString();
+                throw;
             }
-
-            // Close the Excel file
-            workbook.Close(false);
-
-            // Quit Excel application
-            excelApp.Quit();
+            finally
+            {
+                // Quit Excel application
+                excelApp.Quit();
+            }
         }
     }
 }
