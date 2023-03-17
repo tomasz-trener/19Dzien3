@@ -1,0 +1,24 @@
+﻿<Window x:Class="ExcelOtwieranieTest.EmailSelector"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExcelOtwieranieTest"
+        mc:Ignorable="d"
+        Title="EmailSelector" Height="450" Width="800">
+
+    <StackPanel>
+        <DockPanel>
+            <Label DockPanel.Dock="Left" Content="Filter emails:" />
+            <TextBox DockPanel.Dock="Left" x:Name="txtFilter" ></TextBox>
+        </DockPanel>
+
+        <Button Click="Button_Click" Content="Show emails"></Button>
+
+        <ScrollViewer Height="200"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"  CanContentScroll="True">
+            <StackPanel x:Name="emailsCheckBoxes"></StackPanel>
+        </ScrollViewer>
+
+        <Button x:Name="SendSelectedEmails" Content="Send selected" Click="SendSelectedEmails_Click"></Button>
+    </StackPanel>
+</Window>

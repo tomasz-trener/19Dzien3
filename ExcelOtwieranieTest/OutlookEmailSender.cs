@@ -45,7 +45,7 @@ namespace ExcelOtwieranieTest
             email.Display(true);
         }
 
-        public void CreateNewEmail(MailItem oldMailItem)
+        public void CreateNewEmail(string to, string subject, string body, params MailItem[] oldMailItem)
         {
             Application outlook = new Application();
 
@@ -53,24 +53,25 @@ namespace ExcelOtwieranieTest
             MailItem newEmail = (MailItem)outlook.CreateItem(OlItemType.olMailItem);
 
             // Set the recipients, subject, and body of the email message
-            newEmail.To = oldMailItem.To;
-            newEmail.Subject = oldMailItem.Subject;
+            newEmail.To = to;
+            newEmail.Subject = subject;
             newEmail.BodyFormat = OlBodyFormat.olFormatHTML;
 
             // Insert the table into the email message body
-            newEmail.HTMLBody = oldMailItem.HTMLBody;
+            newEmail.HTMLBody = body;
 
-            foreach (Attachment attachment in oldMailItem.Attachments)
-            {
-                string filePath = Path.Combine(@"C:\dane\Excel\Attachments\", attachment.FileName);
-                newEmail.Attachments.Add(filePath);
-            }
+            foreach (var oe in oldMailItem)
+                foreach (Attachment attachment in oe.Attachments)
+                {
+                    string filePath = Path.Combine(@"C:\dane\Excel\Attachments\", attachment.FileName);
+                    newEmail.Attachments.Add(filePath);
+                }
 
             // Display the email message
             newEmail.Display(true);
         }
 
-        public MailItem ReadEmail(string titleFilter)
+        public IEnumerable<MailItem> ReadEmail(string titleFilter)
         {
             // Initialize Outlook application object
             Application outlookApp = new Application();
@@ -99,10 +100,9 @@ namespace ExcelOtwieranieTest
                         string filePath = Path.Combine(@"C:\dane\Excel\Attachments\", attachment.FileName);
                         attachment.SaveAsFile(filePath);
                     }
-                    return mailItem;
+                    yield return mailItem;
                 }
             }
-            return null;
         }
     }
 }

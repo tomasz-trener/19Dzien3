@@ -51,15 +51,8 @@ namespace ExcelOtwieranieTest
 
         private void btnForwardEmail_Click(object sender, RoutedEventArgs e)
         {
-            OutlookEmailSender oes = new OutlookEmailSender();
-
-            MailItem mailItem = oes.ReadEmail("book");
-
-            mailItem.To = "test.recipient@example.com";
-            mailItem.Subject = "Test Subject";
-            mailItem.Body = "Test Body";
-
-            oes.CreateNewEmail(mailItem);
+            EmailSelector es = new EmailSelector();
+            es.Show();
         }
     }
 }
