@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
-        <Button DockPanel.Dock="Top" Content="Test" Click="Button_Click"></Button>
+        <Button DockPanel.Dock="Top" Content="Read excel and send email with table" x:Name="btnSendEmailFromExcel" Click="btnSendEmailFromExcel_Click"></Button>
+        <Button x:Name="btnForwardEmail" DockPanel.Dock="Top" Content="Forward email" Click="btnForwardEmail_Click"></Button>
         <DataGrid x:Name="dgvData" />
     </DockPanel>
 </Window>

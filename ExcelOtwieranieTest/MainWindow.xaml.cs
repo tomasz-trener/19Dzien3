@@ -1,4 +1,5 @@
-﻿using SapLogisticAutomatizaion;
+﻿using Microsoft.Office.Interop.Outlook;
+using SapLogisticAutomatizaion;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,7 +28,7 @@ namespace ExcelOtwieranieTest
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnSendEmailFromExcel_Click(object sender, RoutedEventArgs e)
         {
             ExcelCollumnsReader ecr = new ExcelCollumnsReader();
             var jaggedArray = ecr.ReadExcelFile(@"C:\dane\Excel\Book1.xlsx");
@@ -46,6 +47,19 @@ namespace ExcelOtwieranieTest
 
             OutlookEmailSender oes = new OutlookEmailSender();
             oes.CreateEmail(jaggedArray);
+        }
+
+        private void btnForwardEmail_Click(object sender, RoutedEventArgs e)
+        {
+            OutlookEmailSender oes = new OutlookEmailSender();
+
+            MailItem mailItem = oes.ReadEmail("book");
+
+            mailItem.To = "test.recipient@example.com";
+            mailItem.Subject = "Test Subject";
+            mailItem.Body = "Test Body";
+
+            oes.CreateNewEmail(mailItem);
         }
     }
 }
