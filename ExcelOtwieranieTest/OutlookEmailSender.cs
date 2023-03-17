@@ -86,11 +86,12 @@ namespace ExcelOtwieranieTest
             // Initialize Outlook application object
             Application outlookApp = new Application();
 
+            MAPIFolder oPublicFolder = (MAPIFolder)outlookApp.GetNamespace("MAPI").GetDefaultFolder(OlDefaultFolders.olFolder‌​Inbox).Parent;
             // Get the inbox folder
-            MAPIFolder inbox = outlookApp.GetNamespace("MAPI").GetDefaultFolder(OlDefaultFolders.olFolderInbox);
+            //MAPIFolder inbox = outlookApp.GetNamespace("MAPI").GetDefaultFolder(OlDefaultFolders.olFolderInbox);
 
             // Get all the email items in the inbox
-            Items items = inbox.Items;
+            Items items = oPublicFolder.Items;
 
             // Filter the items to only include emails with "xxx" in thBook2e subject line
             string filter = $@"@SQL=""urn:schemas:mailheader:subject"" LIKE '%{titleFilter}%'";
