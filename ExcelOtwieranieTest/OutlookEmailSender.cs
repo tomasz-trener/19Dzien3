@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -112,6 +113,64 @@ namespace ExcelOtwieranieTest
                         attachment.SaveAsFile(filePath);
                     }
                     yield return mailItem;
+                }
+            }
+        }
+
+        private List<MailItem> _foundEmails;
+
+        public IEnumerable<MailItem> ReadEmailRecur(string titleFilter)
+        {
+            _foundEmails = new List<MailItem>();
+            // Initialize Outlook application object
+            Application outlookApp = new Application();
+
+            Folder root = (Folder)outlookApp.Session.DefaultStore.GetRootFolder();
+            EnumerateFolders(root, titleFilter);
+
+            return _foundEmails;
+        }
+
+        private void EnumerateFolders(Folder folder, string titleFilter)
+        {
+            // Write the folder path.
+
+            // MAPIFolder oPublicFolder = (MAPIFolder)outlookApp.GetNamespace("MAPI").GetDefaultFolder(OlDefaultFolders.olFolder‌​Inbox).Parent;
+            // Get the inbox folder
+            //MAPIFolder inbox = outlookApp.GetNamespace("MAPI").GetDefaultFolder(OlDefaultFolders.olFolderInbox);
+
+            // Get all the email items in the inbox
+            Items items = folder.Items;
+
+            // Filter the items to only include emails with "xxx" in thBook2e subject line
+            string filter = $@"@SQL=""urn:schemas:mailheader:subject"" LIKE '%{titleFilter}%'";
+            items = items.Restrict(filter);
+            string emailContent = string.Empty;
+            // Loop through each email item that matches the filter
+            foreach (object item in items)
+            {
+                if (item is MailItem mailItem)
+                {
+                    // Read the email content to a string variable
+                    emailContent = mailItem.Body;
+
+                    // Loop through each attachment and save to disk
+                    foreach (Attachment attachment in mailItem.Attachments)
+                    {
+                        string filePath = Path.Combine(AttachementPatch, attachment.FileName);
+                        attachment.SaveAsFile(filePath);
+                    }
+                    _foundEmails.Add(mailItem);
+                }
+            }
+
+            Folders childFolders = folder.Folders;
+            if (childFolders.Count > 0)
+            {
+                foreach (Folder childFolder in childFolders)
+                {
+                    // Call EnumerateFolders using childFolder.
+                    EnumerateFolders(childFolder, titleFilter);
                 }
             }
         }

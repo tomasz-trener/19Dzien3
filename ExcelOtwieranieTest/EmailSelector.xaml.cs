@@ -35,7 +35,7 @@ namespace ExcelOtwieranieTest
             emptyAttachementFolder();
             string filter = txtFilter.Text;
 
-            filteredEmails = oes.ReadEmail(filter).ToList();
+            filteredEmails = oes.ReadEmailRecur(filter).ToList();
         }
 
         private void emptyAttachementFolder()
