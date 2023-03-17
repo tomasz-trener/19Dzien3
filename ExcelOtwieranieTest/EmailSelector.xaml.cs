@@ -76,7 +76,7 @@ namespace ExcelOtwieranieTest
         private async void btnShowEmails_Click(object sender, RoutedEventArgs e)
         {
             var progress = new Progress<int>(value => progressBar.Value = value);  // funkcja anonimowa, która bedzie ustawiac progressbar na zadaną wartość
-            oes.Progress = progress; //OutlookEmailSender musi posiadac referencje do progressu bo bedzie ze środa sterować tym progresem
+            oes.Progress = progress; //OutlookEmailSender musi posiadac referencje do progressu bo bedzie ze środka sterować tym progresem
             oes.CalculateDeep(); // musimy najpierw policzyć głębokość czyli liczbę folderów do przeiterowania
             // dlaczego? bo zeby znać % progresu to trzeba wiedzieć jaka jest całkowita liczba folderów do przetworzenia
 
