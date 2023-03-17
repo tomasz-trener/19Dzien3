@@ -14,7 +14,7 @@
         </DockPanel>
 
         <Button x:Name="btnShowEmails" Click="btnShowEmails_Click" Content="Show emails"></Button>
-
+        <ProgressBar Height="20" x:Name="progressBar"></ProgressBar>
         <ScrollViewer Height="200"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"  CanContentScroll="True">
             <StackPanel x:Name="emailsCheckBoxes"></StackPanel>
         </ScrollViewer>

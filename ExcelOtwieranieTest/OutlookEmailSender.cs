@@ -13,6 +13,7 @@ namespace ExcelOtwieranieTest
     internal class OutlookEmailSender
     {
         public string AttachementPatch { get; set; } = @"C:\dane\Excel\Attachments\";
+        public IProgress<int> Progress { get; set; }
 
         public OutlookEmailSender()
         {
@@ -118,9 +119,12 @@ namespace ExcelOtwieranieTest
         }
 
         private List<MailItem> _foundEmails;
+        private int progVal = 1;
 
         public IEnumerable<MailItem> ReadEmailRecur(string titleFilter)
         {
+            progVal = 1;
+
             _foundEmails = new List<MailItem>();
             // Initialize Outlook application object
             Application outlookApp = new Application();
@@ -133,6 +137,8 @@ namespace ExcelOtwieranieTest
 
         private void EnumerateFolders(Folder folder, string titleFilter)
         {
+            //Progress.Report(progVal++);
+            Progress.Report((int)((double)progVal++ / Deep * 100)); // liczmy % progresu na podstawie aktualnego progVal oraz Deep (całowita liczba folderów)
             // Write the folder path.
 
             // MAPIFolder oPublicFolder = (MAPIFolder)outlookApp.GetNamespace("MAPI").GetDefaultFolder(OlDefaultFolders.olFolder‌​Inbox).Parent;
@@ -171,6 +177,35 @@ namespace ExcelOtwieranieTest
                 {
                     // Call EnumerateFolders using childFolder.
                     EnumerateFolders(childFolder, titleFilter);
+                }
+            }
+        }
+
+        public int? Deep { get; set; } = null;
+
+        public void CalculateDeep()
+        {
+            if (Deep != null)
+                return;
+
+            Deep = 1;
+            // Initialize Outlook application object
+            Application outlookApp = new Application();
+
+            Folder root = (Folder)outlookApp.Session.DefaultStore.GetRootFolder();
+            EnumerateFoldersDeep(root);
+        }
+
+        private void EnumerateFoldersDeep(Folder folder)
+        {
+            Deep++;
+            Folders childFolders = folder.Folders;
+            if (childFolders.Count > 0)
+            {
+                foreach (Folder childFolder in childFolders)
+                {
+                    // Call EnumerateFolders using childFolder.
+                    EnumerateFoldersDeep(childFolder);
                 }
             }
         }

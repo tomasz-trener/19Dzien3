@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Outlook;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Net.WebRequestMethods;
 
 namespace ExcelOtwieranieTest
 {
@@ -28,14 +30,6 @@ namespace ExcelOtwieranieTest
         public EmailSelector()
         {
             InitializeComponent();
-        }
-
-        private void readEmails()
-        {
-            emptyAttachementFolder();
-            string filter = txtFilter.Text;
-
-            filteredEmails = oes.ReadEmailRecur(filter).ToList();
         }
 
         private void emptyAttachementFolder()
@@ -79,9 +73,23 @@ namespace ExcelOtwieranieTest
             //oes.CreateNewEmail(mailItem);
         }
 
-        private void btnShowEmails_Click(object sender, RoutedEventArgs e)
+        private async void btnShowEmails_Click(object sender, RoutedEventArgs e)
         {
-            readEmails();
+            var progress = new Progress<int>(value => progressBar.Value = value);  // funkcja anonimowa, która bedzie ustawiac progressbar na zadaną wartość
+            oes.Progress = progress; //OutlookEmailSender musi posiadac referencje do progressu bo bedzie ze środa sterować tym progresem
+            oes.CalculateDeep(); // musimy najpierw policzyć głębokość czyli liczbę folderów do przeiterowania
+            // dlaczego? bo zeby znać % progresu to trzeba wiedzieć jaka jest całkowita liczba folderów do przetworzenia
+
+            progressBar.Maximum = (int)oes.Deep; // ustawiamy progress bar na tę obliczoną wcześniej głębokość
+
+            emptyAttachementFolder();
+
+            string filter = txtFilter.Text;
+
+            await Task.Run(() =>
+            {
+                filteredEmails = oes.ReadEmailRecur(filter).ToList();
+            });
             GenerateCheckboxes();
         }
     }
