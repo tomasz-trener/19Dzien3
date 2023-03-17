@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SapLogisticAutomatizaion", "SapLogisticAutomatizaion\SapLogisticAutomatizaion.csproj", "{004AEC91-CE84-4676-A85C-7F6E0C741E2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelOtwieranieTest", "ExcelOtwieranieTest\ExcelOtwieranieTest.csproj", "{06CCD066-0669-4150-A164-8FBB76E80B9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelOtwieranieTest", "ExcelOtwieranieTest\ExcelOtwieranieTest.csproj", "{06CCD066-0669-4150-A164-8FBB76E80B9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZnakZapytania", "ZnakZapytania\ZnakZapytania.csproj", "{C037960C-DCA3-4A57-B5AE-6AAC7D08D667}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{06CCD066-0669-4150-A164-8FBB76E80B9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06CCD066-0669-4150-A164-8FBB76E80B9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06CCD066-0669-4150-A164-8FBB76E80B9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C037960C-DCA3-4A57-B5AE-6AAC7D08D667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C037960C-DCA3-4A57-B5AE-6AAC7D08D667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C037960C-DCA3-4A57-B5AE-6AAC7D08D667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C037960C-DCA3-4A57-B5AE-6AAC7D08D667}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -43,6 +43,9 @@ namespace ExcelOtwieranieTest
                 dataTable.Rows.Add(jaggedArray[i]);
 
             dgvData.ItemsSource = dataTable.DefaultView;
+
+            OutlookEmailSender oes = new OutlookEmailSender();
+            oes.CreateEmail(jaggedArray);
         }
     }
 }
