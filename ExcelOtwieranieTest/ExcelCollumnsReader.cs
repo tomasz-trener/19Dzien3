@@ -31,15 +31,18 @@ namespace SapLogisticAutomatizaion
                 string[][] data = new string[lastRow][];
                 for (int i = 0; i < lastRow; i++)
                 {
-                    data[i] = new string[2];
+                    data[i] = new string[lastCol];
                 }
 
                 // Read data from columns A and B
                 for (int i = 1; i <= lastRow; i++)
-                {
-                    data[i - 1][0] = ((Excel.Range)worksheet.Cells[i, 1]).Value2.ToString();
-                    data[i - 1][1] = ((Excel.Range)worksheet.Cells[i, 2]).Value2.ToString();
-                }
+                    for (int j = 1; j <= lastCol; j++)
+                        data[i - 1][j - 1] = ((Excel.Range)worksheet.Cells[i, j]).Value2?.ToString();
+
+                //for (int i = 1; i <= lastRow; i++)
+                //    for (int j = 1; j <= lastCol; j++)
+                //        if(((Excel.Range)worksheet.Cells[i, j]).Value2 != null)
+                //            data[i - 1][j - 1] = ((Excel.Range)worksheet.Cells[i, j]).Value2.ToString();
 
                 // Close the Excel file
                 workbook.Close(false);
