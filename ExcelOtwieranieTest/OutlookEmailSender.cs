@@ -185,7 +185,7 @@ namespace ExcelOtwieranieTest
 
         public void CalculateDeep()
         {
-            if (Deep != null)
+            if (Deep != null) // jak już znam liczbę folderów to nie muszę jej liczyć ponownie
                 return;
 
             Deep = 1;
