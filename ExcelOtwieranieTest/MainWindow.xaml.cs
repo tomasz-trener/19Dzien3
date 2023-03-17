@@ -35,13 +35,11 @@ namespace ExcelOtwieranieTest
             DataTable dataTable = new DataTable();
             //for (int i = 0; i < jaggedArray[0].Length; i++)
             //    dataTable.Columns.Add($"Column{i + 1}");
-            int j = 0;
+            //int j = 0;
             foreach (var item in jaggedArray[0])
-                dataTable.Columns.Add($"Column{j++ + 1}");
+                dataTable.Columns.Add(item);
 
-            //foreach (var row in jaggedArray)
-            //    dataTable.Rows.Add(row);
-            for (int i = 0; i < jaggedArray.Length; i++)
+            for (int i = 1; i < jaggedArray.Length; i++)
                 dataTable.Rows.Add(jaggedArray[i]);
 
             dgvData.ItemsSource = dataTable.DefaultView;
