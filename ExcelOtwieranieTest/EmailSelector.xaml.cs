@@ -2,6 +2,7 @@
 using Microsoft.Office.Interop.Outlook;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace ExcelOtwieranieTest
     public partial class EmailSelector : System.Windows.Window
     {
         private List<MailItem> filteredEmails;
+        private OutlookEmailSender oes = new OutlookEmailSender();
 
         public EmailSelector()
         {
@@ -30,10 +32,19 @@ namespace ExcelOtwieranieTest
 
         private void readEmails()
         {
+            emptyAttachementFolder();
             string filter = txtFilter.Text;
-            OutlookEmailSender oes = new OutlookEmailSender();
 
             filteredEmails = oes.ReadEmail(filter).ToList();
+        }
+
+        private void emptyAttachementFolder()
+        {
+            DirectoryInfo di = new DirectoryInfo(oes.AttachementPatch);
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
         }
 
         private void GenerateCheckboxes()
@@ -44,6 +55,10 @@ namespace ExcelOtwieranieTest
                 System.Windows.Controls.CheckBox c = new System.Windows.Controls.CheckBox();
                 c.Content = e.Subject + $" ({e.Attachments.Count})";
                 c.Tag = e;
+
+                foreach (Attachment at in e.Attachments)
+                    c.ToolTip += at.FileName + ", ";
+
                 emailsCheckBoxes.Children.Add(c);
             }
         }
@@ -55,7 +70,6 @@ namespace ExcelOtwieranieTest
                 if ((bool)c.IsChecked)
                     selectedEmails.Add((MailItem)c.Tag);
 
-            OutlookEmailSender oes = new OutlookEmailSender();
             oes.CreateNewEmail("test.recipient@example.com", "test", "aaa", selectedEmails.ToArray());
 
             //mailItem.To = "test.recipient@example.com";
@@ -65,7 +79,7 @@ namespace ExcelOtwieranieTest
             //oes.CreateNewEmail(mailItem);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnShowEmails_Click(object sender, RoutedEventArgs e)
         {
             readEmails();
             GenerateCheckboxes();

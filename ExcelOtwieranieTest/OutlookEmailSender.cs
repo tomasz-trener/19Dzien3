@@ -11,6 +11,16 @@ namespace ExcelOtwieranieTest
 {
     internal class OutlookEmailSender
     {
+        public string AttachementPatch { get; set; } = @"C:\dane\Excel\Attachments\";
+
+        public OutlookEmailSender()
+        {
+            bool exists = System.IO.Directory.Exists(AttachementPatch);
+
+            if (!exists)
+                System.IO.Directory.CreateDirectory(AttachementPatch);
+        }
+
         public void CreateEmail(string[][] tableData)
         {
             //Interop.Microsoft.Office.Interop.Outlook z nuget
@@ -63,7 +73,7 @@ namespace ExcelOtwieranieTest
             foreach (var oe in oldMailItem)
                 foreach (Attachment attachment in oe.Attachments)
                 {
-                    string filePath = Path.Combine(@"C:\dane\Excel\Attachments\", attachment.FileName);
+                    string filePath = Path.Combine(AttachementPatch, attachment.FileName);
                     newEmail.Attachments.Add(filePath);
                 }
 
@@ -97,7 +107,7 @@ namespace ExcelOtwieranieTest
                     // Loop through each attachment and save to disk
                     foreach (Attachment attachment in mailItem.Attachments)
                     {
-                        string filePath = Path.Combine(@"C:\dane\Excel\Attachments\", attachment.FileName);
+                        string filePath = Path.Combine(AttachementPatch, attachment.FileName);
                         attachment.SaveAsFile(filePath);
                     }
                     yield return mailItem;

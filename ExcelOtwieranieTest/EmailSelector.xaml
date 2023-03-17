@@ -13,7 +13,7 @@
             <TextBox DockPanel.Dock="Left" x:Name="txtFilter" ></TextBox>
         </DockPanel>
 
-        <Button Click="Button_Click" Content="Show emails"></Button>
+        <Button x:Name="btnShowEmails" Click="btnShowEmails_Click" Content="Show emails"></Button>
 
         <ScrollViewer Height="200"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"  CanContentScroll="True">
             <StackPanel x:Name="emailsCheckBoxes"></StackPanel>
